@@ -1,113 +1,178 @@
-import Image from "next/image";
+"use client";
+
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    /*
+        NAVERCLOUD
+        Client ID       8fszt89398  (X-NCP-APIGW-API-KEY-ID)
+        Client Secret   4DURagX2Zv64RfMroW10bOX0SBAE2gCD865pmxfr    (X-NCP-APIGW-API-KEY)
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    */
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+    const [, setRender] = useState(false);
+    const mapRef = useRef<any>(null);
+    const paikRef = useRef<any[]>([]);
+    const megaRef = useRef<any[]>([]);
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+    useEffect(() => {
+        // @ts-ignore
+        var map = new naver.maps.Map("map", {
+            // @ts-ignore
+            center: new naver.maps.LatLng(37.3595704, 127.105399),
+            zoom: 10,
+        });
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+        mapRef.current = map;
+    }, []);
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    const getPaik = () => {
+        return new Promise(async (resolve) => {
+            const settled1 = await Promise.allSettled(
+                new Array(10)
+                    .fill(null)
+                    .map((_, index) =>
+                        axios.get(
+                            `https://theborndb.theborn.co.kr/wp-json/api/get_store/?state=9&category=275&depth1=20&depth2=&paged=${
+                                index + 1
+                            }&search_string=`
+                        )
+                    )
+            );
+
+            const reduced1 = settled1.reduce((prev: any, curr: any) => {
+                return [...prev, ...curr.value.data.results];
+            }, []);
+
+            const settled2 = await Promise.allSettled(
+                reduced1.map((data: any) => {
+                    return new Promise((resolve) => {
+                        const { store_address } = data;
+                        // @ts-ignore
+                        naver.maps.Service.geocode({ query: store_address }, function (status, response) {
+                            if (response.v2.addresses[0] === undefined) {
+                                console.log(data);
+                            }
+                            resolve({ ...response.v2.addresses[0], store: data });
+                        });
+                    });
+                })
+            );
+
+            const mapped1 = settled2.map((_: any) => {
+                return _.value;
+            });
+
+            for (let i = 0; i < mapped1.length; i++) {
+                // @ts-ignore
+                var marker = new naver.maps.Marker({
+                    // @ts-ignore
+                    position: new naver.maps.LatLng(mapped1[i].y, mapped1[i].x),
+                    map: mapRef.current,
+                });
+            }
+
+            paikRef.current = mapped1;
+            resolve(mapped1);
+        });
+    };
+
+    const getMega2 = async () => {
+        try {
+            const q = await axios.get("/mega/store_search.php?store_search=%EB%8C%80%EC%A0%84");
+            console.log(q.data.split("</li>"));
+        } catch (error) {}
+    };
+
+    const getMega = async () => {
+        try {
+            const q = await axios.get(`/mega/store.php?lat=36.3736603969621&lng=127.31835405407382`);
+            const w = await axios.get(`/mega/store.php?lat=36.33691086037413&lng=127.44758849202687`);
+            const e = await axios.get(`/mega/store.php?lat=36.34926706986817&lng=127.37671852543968`);
+            const r = await axios.get(`/mega/store.php?lat=36.36724994820482&lng=127.43136009574901`);
+            const t = await axios.get(`/mega/store.php?lat=36.32776877727852&lng=127.42401462100376`);
+
+            megaRef.current.push(...q.data.positions);
+            megaRef.current.push(...w.data.positions);
+            megaRef.current.push(...e.data.positions);
+            megaRef.current.push(...r.data.positions);
+            megaRef.current.push(...t.data.positions);
+        } catch (error) {}
+    };
+
+    const handleClick5 = () => {
+        const reduced = megaRef.current.reduce((prev, curr) => {
+            return prev.find((_: any) => _.idx === curr.idx) ? prev : [...prev, curr];
+        }, []);
+
+        console.log(reduced);
+        // for (let i = 0; i < megaGeoRef.current.length; i++) {
+        //     // @ts-ignore
+        //     var marker = new naver.maps.Marker({
+        //         // @ts-ignore
+        //         position: new naver.maps.LatLng(megaGeoRef.current[i].y, megaGeoRef.current[i].x),
+        //         map: mapRef.current,
+        //     });
+        //     console.log(marker);
+        // }
+    };
+
+    const render = () => {
+        setRender((prev) => !prev);
+    };
+
+    return (
+        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+            <button onClick={getPaik}>teest</button>
+
+            <button onClick={getMega2}>mega2</button>
+            <button onClick={getMega}>mega</button>
+            <button onClick={handleClick5}>mega get</button>
+            <button onClick={render}>render</button>
+            <div hidden id="map" className="w-96 h-96"></div>
+        </main>
+    );
 }
+
+// const getGeo = async (data: any) => {
+//     const { store_address, store_brand, store_name } = data;
+
+//     // @ts-ignore
+//     naver.maps.Service.geocode({ query: store_address }, function (status, response) {
+//         // @ts-ignore
+
+//         if (response.v2.addresses[0] === undefined) {
+//             // 중앙로 지하상가
+//             console.log(data);
+//         }
+
+//         paikGeoRef.current.push({ ...response.v2.addresses[0], store: data });
+//     });
+
+//     // try {
+//     //     const { data } = await axios.get(`/naver/v1/search/local.json?query=${encodeURI(store_brand + " " + store_name)}`, {
+//     //         headers: {
+//     //             "X-Naver-Client-Id": "fZvD1kVqj6utqG9zKiD4",
+//     //             "X-Naver-Client-Secret": "f33lvNarMU",
+//     //         },
+//     //     });
+//     //     paikGeoRef.current.push(data.items[0]);
+//     // } catch (error) {}
+// };
+
+// const handleClick2 = () => {
+//     if (paikRef.current.length === 0) return;
+//     // let i = 0;
+//     // const si = setInterval(() => {
+//     //     getGeo(paikRef.current[i]);
+//     //     i++;
+//     //     if (i === paikRef.current.length) {
+//     //         clearInterval(si);
+//     //     }
+//     // }, 100);
+
+//     for (let i = 0; i < paikRef.current.length; i++) {
+//         getGeo(paikRef.current[i]);
+//     }
+// };
